@@ -1,0 +1,19 @@
+{
+  "name": "@snooful/periwinkle-permissions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Snooful/Periwinkle-Permissions.git"
+  },
+  "author": "haykam821",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Snooful/Periwinkle-Permissions/issues"
+  },
+  "homepage": "https://github.com/Snooful/Periwinkle-Permissions#readme"
+}
