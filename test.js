@@ -1,19 +1,24 @@
+/* eslint-env mocha */
+
 const pp = require(".");
 const assert = require("chai").assert;
 
-describe("api", () => {
-	describe("test", () => {
-		const tests = {
-			normal: pp.test("example.hello", ["example.hello"]),
-			negationFromAll: pp.test("example.hello", ["*", "-example.hello"]),
-		};
+/**
+ * Test something.
+ * @param {*} result The result of the test.
+ */
+function test(result) {
+	it("returns boolean", () => {
+		assert.isTrue(typeof result === "boolean");
+	});
+}
 
-		describe("returns boolean", () => {
-			Object.keys(tests).forEach(key => {
-				it(`for ${key} test`, () => {
-					assert.isTrue(typeof tests[key] === "boolean");
-				});
-			});
-		});
+describe("test", () => {
+	const tests = {
+		basic: pp.test("example.hello", ["example.hello"]),
+		any: pp.test("example", ["*"]),
+	};
+	Object.keys(tests).forEach(key => {
+		describe(key, () => test(tests[key]));
 	});
 });
