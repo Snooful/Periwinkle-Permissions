@@ -15,8 +15,8 @@ function test(result) {
 
 describe("test", () => {
 	const tests = {
-		basic: pp.test("example.hello", ["example.hello"]),
 		any: pp.test("example", ["*"]),
+		basic: pp.test("example.hello", ["example.hello"]),
 	};
 	Object.keys(tests).forEach(key => {
 		describe(key, () => test(tests[key]));

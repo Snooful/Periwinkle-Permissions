@@ -1,3 +1,9 @@
+/**
+ * Tests for a permission from an array of permission selectors.
+ * @param {string} testFor The permission to test for.
+ * @param {string[]} permissions The permission selectors.
+ * @returns {boolean} Whether the permission is selected by the selectors.
+ */
 module.exports.test = (testFor, permissions = []) => {
 	return permissions.some(permission => {
 		if (permission === testFor) {
