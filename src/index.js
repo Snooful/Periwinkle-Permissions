@@ -5,6 +5,14 @@
  * @returns {boolean} Whether the permission is selected by the selectors.
  */
 module.exports.test = (testFor, permissions = []) => {
+	if (typeof testFor !== "string") {
+		throw new TypeError("The testFor parameter must be a string.");
+	} else if (!Array.isArray(permissions)) {
+		throw new TypeError("The permissions parameter must be an array.");
+	} else if (permissions.some(perm => typeof perm !== "string")) {
+		throw new TypeError("Every element in the permissions array must be a string.");
+	}
+
 	return permissions.some(permission => {
 		if (permission === testFor) {
 			return true;
