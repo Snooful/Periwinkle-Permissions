@@ -5,7 +5,7 @@ const validPartRegex = /^([a-z]+|\*)$/;
  * @param {string} perm The permission selector to validate.
  * @returns {boolean} Whether the permission selector is valid.
  */
-module.exports.validate = perm => {
+function validate(perm) {
 	if (typeof perm !== "string") {
 		return false;
 	}
@@ -14,7 +14,8 @@ module.exports.validate = perm => {
 	return split.every(part => {
 		return validPartRegex.test(part);
 	});
-};
+}
+module.exports.validate = validate;
 
 /**
  * Tests for a permission from an array of permission selectors.
@@ -27,8 +28,8 @@ module.exports.test = (testFor, permissions = []) => {
 		throw new TypeError("The testFor parameter must be a string.");
 	} else if (!Array.isArray(permissions)) {
 		throw new TypeError("The permissions parameter must be an array.");
-	} else if (permissions.some(perm => typeof perm !== "string")) {
-		throw new TypeError("Every element in the permissions array must be a string.");
+	} else if (permissions.some(perm => !validate(perm))) {
+		throw new TypeError("Permission selectors must be valid.");
 	}
 
 	return permissions.some(permission => {
