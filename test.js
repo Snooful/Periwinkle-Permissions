@@ -10,6 +10,8 @@ describe("validate", () => {
 			"node..hi",
 			"node.*e",
 			"node.**",
+			"node.0",
+			"node.CAPS",
 		].forEach((item, index) => {
 			assert.isFalse(pp.validate(item), "invalid test " + (index + 1));
 		});
