@@ -1,7 +1,7 @@
 {
 	"name": "@snooful/periwinkle-permissions",
 	"version": "1.0.0",
-	"description": "",
+	"description": "A node-based permissions system.",
 	"main": "./src/index.js",
 	"scripts": {
 		"lint": "eslint \"./**/*.js\"",
