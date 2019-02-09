@@ -28,6 +28,26 @@ describe("validate", () => {
 	});
 });
 
+describe("sort", () => {
+	const normal = [
+		"a",
+		"a.*",
+		"a.b",
+		"a.b.*",
+		"-c",
+		"-c.*",
+		"-c.d",
+	];
+	const sorted = pp.sort(normal.reverse());
+
+	it("returns array", () => {
+		assert.isArray(sorted);
+	});
+	it("is correct", () => {
+		assert.deepEqual(normal, sorted);
+	});
+});
+
 describe("test", () => {
 	Object.entries({
 		any: {
