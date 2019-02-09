@@ -47,6 +47,16 @@ describe("test", () => {
 			needed: "example.hello",
 			nodes: ["example.*"],
 		},
+		negate: {
+			invert: true,
+			needed: "example.denied",
+			nodes: ["example.*", "-example.denied"],
+		},
+		noPerms: {
+			invert: true,
+			needed: "example.permless",
+			nodes: [],
+		},
 	}).forEach(([ key, value ]) => {
 		it(key, () => {
 			const test = pp.test(value.needed, value.nodes);
