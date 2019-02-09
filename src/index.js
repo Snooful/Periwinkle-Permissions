@@ -1,3 +1,21 @@
+const validPartRegex = /^([a-z]+|\*)$/;
+
+/**
+ * Validates a permission selector.
+ * @param {string} perm The permission selector to validate.
+ * @returns {boolean} Whether the permission selector is valid.
+ */
+module.exports.validate = perm => {
+	if (typeof perm !== "string") {
+		return false;
+	}
+
+	const split = perm.split(".");
+	return split.every(part => {
+		return validPartRegex.test(part);
+	});
+};
+
 /**
  * Tests for a permission from an array of permission selectors.
  * @param {string} testFor The permission to test for.
