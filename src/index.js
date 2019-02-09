@@ -84,25 +84,27 @@ module.exports.test = (testFor, permissions = []) => {
 		throw new TypeError("Permission selectors must be valid.");
 	}
 
-	const sortedPerms = permissions.sort(perm => {
-
-	});
-
-	let exactMatchFound = false;
-	let wildcard;// = level;
-
-	return permissions.some(permission => {
-		if (permission === testFor) {
-			return exactMatchFound = true;
-		} else {
-			const groups = permission.split(".");
-			if (groups[groups.length - 1] === "*") {
-				const testGroups = testFor.split(".");
-				const groupsBefore = groups.slice(0, -1).join(".");
-				return wildcard = testGroups.length >= groups.length && testFor.startsWith(groupsBefore);
-			}
+	const sortedPerms = sort(permissions);
+	return sortedPerms.reduce((_, perm) => {
+		const negated = perm.startsWith("-");
+		if (negated) {
+			perm = perm.slice(1);
 		}
-	});
 
-	return isAllowed;
+		// Exact match
+		if (perm === testFor) {
+			return !negated;
+		}
+
+		const groups = perm.split(".");
+		if (groups[groups.length - 1] === "*") {
+			const testGroups = testFor.split(".");
+			const groupsBefore = groups.slice(0, -1).join(".");
+
+			const does = testGroups.length >= groups.length && testFor.startsWith(groupsBefore);
+			return negated ? !does : does;
+		}
+
+		return false;
+	}, false);
 };
