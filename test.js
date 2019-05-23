@@ -38,13 +38,30 @@ describe("sort", () => {
 		"-c.*",
 		"-c.d",
 	];
-	const sorted = pp.sort(normal.reverse());
 
-	it("returns array", () => {
-		assert.isArray(sorted);
+	describe("flat array", () => {
+		const sorted = pp.sort(normal.reverse());
+
+		it("returns array", () => {
+			assert.isArray(sorted);
+		});
+		it("is correct", () => {
+			assert.deepEqual(normal, sorted);
+		});
 	});
-	it("is correct", () => {
-		assert.deepEqual(normal, sorted);
+
+	describe("grouped array", () => {
+		const grouped = [
+			"e",
+			"e.f",
+			"-g.*",
+			normal,
+		];
+		const sorted = pp.sort(grouped.reverse(), true);
+
+		it("is correct", () => {
+			assert.deepEqual(grouped, sorted);
+		});
 	});
 });
 
