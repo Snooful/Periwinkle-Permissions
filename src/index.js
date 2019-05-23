@@ -63,7 +63,7 @@ function sort(permissions = [], groupPermissions = false) {
 		}
 	}) : permissions;
 
-	const sorted = subSortedPermissions.sort((a, b) => {
+	return subSortedPermissions.sort((a, b) => {
 		if (Array.isArray(a)) return 1;
 		if (Array.isArray(b)) return -1;
 
@@ -99,8 +99,6 @@ function sort(permissions = [], groupPermissions = false) {
 			return 0;
 		}
 	});
-
-	return groupPermissions ? sorted.reverse() : sorted;
 }
 module.exports.sort = sort;
 

@@ -40,7 +40,7 @@ describe("sort", () => {
 	];
 
 	describe("flat array", () => {
-		const sorted = pp.sort(normal.reverse());
+		const sorted = pp.sort([...normal].reverse());
 
 		it("returns array", () => {
 			assert.isArray(sorted);
@@ -57,7 +57,7 @@ describe("sort", () => {
 			"-g.*",
 			normal,
 		];
-		const sorted = pp.sort(grouped.reverse(), true);
+		const sorted = pp.sort([...grouped].reverse(), true);
 
 		it("is correct", () => {
 			assert.deepEqual(grouped, sorted);
