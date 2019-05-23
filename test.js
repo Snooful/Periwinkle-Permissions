@@ -40,13 +40,15 @@ describe("sort", () => {
 	];
 
 	describe("flat array", () => {
-		const sorted = pp.sort([...normal].reverse());
+		const sorted = pp.sort(normal);
+		const sortedRev = pp.sort([...normal].reverse());
 
 		it("returns array", () => {
 			assert.isArray(sorted);
 		});
 		it("is correct", () => {
 			assert.deepEqual(normal, sorted);
+			assert.deepEqual(normal, sortedRev);
 		});
 	});
 
@@ -57,10 +59,13 @@ describe("sort", () => {
 			"-g.*",
 			normal,
 		];
-		const sorted = pp.sort([...grouped].reverse(), true);
+
+		const sorted = pp.sort(grouped, true);
+		const sortedRev = pp.sort([...grouped].reverse(), true);
 
 		it("is correct", () => {
 			assert.deepEqual(grouped, sorted);
+			assert.deepEqual(grouped, sortedRev);
 		});
 	});
 });
