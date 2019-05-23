@@ -45,10 +45,11 @@ module.exports.validateAll = validateAll;
 /**
  * Sorts permission selectors by priority.
  * @param {string[]} permissions The permission selectors to sort.
- * @returns {string[]} The sorted permission selectors.
  * @param {boolean} groupPermissions If true, allows sorting arrays of arrays.
+ * @param {boolean} favorGroupedPermissions If true, grouped permissions will be sorted after ungrouped permissions.
+ * @returns {string[]} The sorted permission selectors.
  */
-function sort(permissions = [], groupPermissions = false) {
+function sort(permissions = [], groupPermissions = false, favorGroupedPermissions = true) {
 	if (!Array.isArray(permissions)) {
 		throw new TypeError("The permissions parameter must be an array.");
 	} else if (!validateAll(permissions, groupPermissions)) {
@@ -64,8 +65,8 @@ function sort(permissions = [], groupPermissions = false) {
 	}) : permissions;
 
 	return subSortedPermissions.sort((a, b) => {
-		if (Array.isArray(a)) return 1;
-		if (Array.isArray(b)) return -1;
+		if (Array.isArray(a)) return (favorGroupedPermissions ? 1 : -1);
+		if (Array.isArray(b)) return (favorGroupedPermissions ? -1 : 1);
 
 		const aDash = a.startsWith("-");
 		const bDash = b.startsWith("-");
@@ -107,9 +108,10 @@ module.exports.sort = sort;
  * @param {string} testFor The permission to test for.
  * @param {string[]} permissions The permission selectors.
  * @param {boolean} groupPermissions If true, allows using arrays of arrays to group permissions.
+ * @param {boolean} favorGroupedPermissions If true, grouped permissions will take precedence over ungrouped permissions.
  * @returns {boolean} Whether the permission is selected by the selectors.
  */
-module.exports.test = (testFor, permissions = [], groupPermissions = false) => {
+module.exports.test = (testFor, permissions = [], groupPermissions = false, favorGroupedPermissions = true) => {
 	if (typeof testFor !== "string") {
 		throw new TypeError("The testFor parameter must be a string.");
 	} else if (!Array.isArray(permissions)) {
@@ -118,7 +120,7 @@ module.exports.test = (testFor, permissions = [], groupPermissions = false) => {
 		throw new TypeError("Permission selectors must be valid.");
 	}
 
-	const sortedPerms = sort(permissions, groupPermissions);
+	const sortedPerms = sort(permissions, groupPermissions, favorGroupedPermissions);
 	const flattened = groupPermissions ? sortedPerms.flat() : sortedPerms;
 
 	return flattened.reduce((_, perm) => {
