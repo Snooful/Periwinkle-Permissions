@@ -53,17 +53,32 @@ describe("sort", () => {
 	});
 
 	describe("grouped array", () => {
-		const grouped = [
-			"e",
-			"e.f",
-			"-g.*",
-			normal,
-		];
-
-		const sorted = pp.sort(grouped, true);
-		const sortedRev = pp.sort([...grouped].reverse(), true);
-
 		it("is correct", () => {
+			const grouped = [
+				"e",
+				"e.f",
+				"-g.*",
+				normal,
+			];
+
+			const sorted = pp.sort(grouped, true);
+			const sortedRev = pp.sort([...grouped].reverse(), true);
+
+			assert.deepEqual(grouped, sorted);
+			assert.deepEqual(grouped, sortedRev);
+		});
+
+		it("is correct when not favoring grouped", () => {
+			const grouped = [
+				normal,
+				"e",
+				"e.f",
+				"-g.*",
+			];
+
+			const sorted = pp.sort(grouped, true, false);
+			const sortedRev = pp.sort([...grouped].reverse(), true, false);
+
 			assert.deepEqual(grouped, sorted);
 			assert.deepEqual(grouped, sortedRev);
 		});
