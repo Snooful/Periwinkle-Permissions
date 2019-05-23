@@ -119,7 +119,9 @@ module.exports.test = (testFor, permissions = [], groupPermissions = false) => {
 	}
 
 	const sortedPerms = sort(permissions, groupPermissions);
-	return sortedPerms.reduce((_, perm) => {
+	const flattened = groupPermissions ? sortedPerms.flat() : sortedPerms;
+
+	return flattened.reduce((_, perm) => {
 		const negated = perm.startsWith("-");
 		if (negated) {
 			perm = perm.slice(1);
