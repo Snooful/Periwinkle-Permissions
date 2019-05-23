@@ -22,18 +22,51 @@ function validate(perm) {
 module.exports.validate = validate;
 
 /**
+ * Validates an array of permissions.
+ * @param {(string[]|Array.<string[]>)} permissions The permission selectors to validate.
+ * @param {boolean} groupPermissions If true, allows validating arrays of arrays.
+ * @returns {boolean} Whether all the permission selectors are valid.
+ */
+function validateAll(permissions, groupPermissions = false) {
+	return permissions.every(perm => {
+		if (Array.isArray(perm)) {
+			if (groupPermissions) {
+				return perm.every(subPerm => validate(subPerm));
+			} else {
+				return false;
+			}
+		} else {
+			return validate(perm);
+		}
+	});
+}
+module.exports.validateAll = validateAll;
+
+/**
  * Sorts permission selectors by priority.
  * @param {string[]} permissions The permission selectors to sort.
  * @returns {string[]} The sorted permission selectors.
+ * @param {boolean} groupPermissions If true, allows sorting arrays of arrays.
  */
-function sort(permissions = []) {
+function sort(permissions = [], groupPermissions = false) {
 	if (!Array.isArray(permissions)) {
 		throw new TypeError("The permissions parameter must be an array.");
-	} else if (permissions.some(perm => !validate(perm))) {
+	} else if (!validateAll(permissions, groupPermissions)) {
 		throw new TypeError("Permission selectors must be valid.");
 	}
 
-	return permissions.sort((a, b) => {
+	const subSortedPermissions = groupPermissions ? permissions.map(perm => {
+		if (Array.isArray(perm)) {
+			return sort(perm);
+		} else {
+			return perm;
+		}
+	}) : permissions;
+
+	const sorted = subSortedPermissions.sort((a, b) => {
+		if (Array.isArray(a)) return 1;
+		if (Array.isArray(b)) return -1;
+
 		const aDash = a.startsWith("-");
 		const bDash = b.startsWith("-");
 
@@ -66,6 +99,8 @@ function sort(permissions = []) {
 			return 0;
 		}
 	});
+
+	return groupPermissions ? sorted.reverse() : sorted;
 }
 module.exports.sort = sort;
 
@@ -73,18 +108,19 @@ module.exports.sort = sort;
  * Tests for a permission from an array of permission selectors.
  * @param {string} testFor The permission to test for.
  * @param {string[]} permissions The permission selectors.
+ * @param {boolean} groupPermissions If true, allows using arrays of arrays to group permissions.
  * @returns {boolean} Whether the permission is selected by the selectors.
  */
-module.exports.test = (testFor, permissions = []) => {
+module.exports.test = (testFor, permissions = [], groupPermissions = false) => {
 	if (typeof testFor !== "string") {
 		throw new TypeError("The testFor parameter must be a string.");
 	} else if (!Array.isArray(permissions)) {
 		throw new TypeError("The permissions parameter must be an array.");
-	} else if (permissions.some(perm => !validate(perm))) {
+	} else if (!validateAll(permissions, groupPermissions)) {
 		throw new TypeError("Permission selectors must be valid.");
 	}
 
-	const sortedPerms = sort(permissions);
+	const sortedPerms = sort(permissions, groupPermissions);
 	return sortedPerms.reduce((_, perm) => {
 		const negated = perm.startsWith("-");
 		if (negated) {
