@@ -3,28 +3,46 @@
 const pp = require(".");
 const assert = require("chai").assert;
 
+const validateTrue = [
+	"node",
+	"node.*",
+	"node.e",
+	"node.e.f",
+];
+const validateFalse = [
+	"node.",
+	"node..hi",
+	"node.*e",
+	"node.**",
+	"node.0",
+	"node.CAPS",
+];
+
 describe("validate", () => {
 	it("returns false for invalid nodes", () => {
-		[
-			"node.",
-			"node..hi",
-			"node.*e",
-			"node.**",
-			"node.0",
-			"node.CAPS",
-		].forEach((item, index) => {
+		validateFalse.forEach((item, index) => {
 			assert.isFalse(pp.validate(item), "invalid test " + (index + 1));
 		});
 	});
 	it("returns true for valid nodes", () => {
-		[
-			"node",
-			"node.*",
-			"node.e",
-			"node.e.f",
-		].forEach((item, index) => {
+		validateTrue.forEach((item, index) => {
 			assert.isTrue(pp.validate(item), "valid test " + (index + 1));
 		});
+	});
+});
+
+describe("validateAll", () => {
+	it("returns false for an array of invalid nodes", () => {
+		assert.isFalse(pp.validateAll(validateFalse));
+	});
+	it("returns false for an array of mixed-validity nodes", () => {
+		assert.isFalse(pp.validateAll([
+			...validateFalse,
+			...validateTrue,
+		]));
+	});
+	it("returns true for an array of valid nodes", () => {
+		assert.isTrue(pp.validateAll(validateTrue));
 	});
 });
 
