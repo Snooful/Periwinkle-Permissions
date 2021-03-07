@@ -19,13 +19,15 @@
 	"homepage": "https://github.com/Snooful/Periwinkle-Permissions#readme",
 	"devDependencies": {
 		"chai": "^4.2.0",
-		"eslint": "^5.16.0",
-		"eslint-config-haykam": "^1.6.0",
-		"eslint-plugin-extra-rules": "^0.8.1",
-		"eslint-plugin-html": "^5.0.5",
-		"eslint-plugin-json": "^1.4.0",
-		"eslint-plugin-markdown": "^1.0.0",
-		"eslint-plugin-unicorn": "^8.0.2",
+		"eslint": "^7.21.0",
+		"eslint-config-haykam": "^1.10.0",
+		"eslint-plugin-extra-rules": "^0.0.0-development",
+		"eslint-plugin-html": "^6.1.1",
+		"eslint-plugin-jsdoc": "^32.2.0",
+		"eslint-plugin-json": "^2.1.2",
+		"eslint-plugin-markdown": "^2.0.0",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-unicorn": "^28.0.2",
 		"mocha": "^5.2.0"
 	}
 }
