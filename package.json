@@ -29,5 +29,8 @@
 		"eslint-plugin-node": "^11.1.0",
 		"eslint-plugin-unicorn": "^28.0.2",
 		"mocha": "^5.2.0"
+	},
+	"eslintConfig": {
+		"extends": "eslint-config-haykam"
 	}
 }
