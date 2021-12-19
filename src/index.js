@@ -135,7 +135,7 @@ module.exports.test = (testFor, permissions = [], groupPermissions = false, favo
 		}
 
 		const groups = perm.split(".");
-		if (groups[groups.length - 1] === "*") {
+		if (groups.at(-1) === "*") {
 			const testGroups = testFor.split(".");
 			const groupsBefore = groups.slice(0, -1).join(".");
 
