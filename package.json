@@ -19,8 +19,8 @@
 	"homepage": "https://github.com/Snooful/Periwinkle-Permissions#readme",
 	"devDependencies": {
 		"chai": "^4.2.0",
-		"eslint": "^7.32.0",
-		"eslint-config-haykam": "^1.12.0",
+		"eslint": "^8.6.0",
+		"eslint-config-haykam": "^1.14.0",
 		"mocha": "^5.2.0"
 	},
 	"eslintConfig": {
